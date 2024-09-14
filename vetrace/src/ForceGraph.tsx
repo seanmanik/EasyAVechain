@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import ForceGraph2D from 'react-force-graph-2d';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Card, CardContent, Typography } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Card, CardContent, Typography, Tooltip as MuiTooltip } from '@mui/material';
 import ReactCardFlip from 'react-card-flip';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import InfoIcon from '@mui/icons-material/Info';
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
@@ -22,7 +23,7 @@ const dummyJson = {
       "water": 180.2,
       "plastic": 500.0,
       "produceWeight": 1200.0,
-      "esgScore": 10,
+      "esgScore": 90,
       "lastUpdated": "2024-09-12T08:00:00"
     },
     {
@@ -60,7 +61,7 @@ const dummyJson = {
       "water": 150.0,
       "plastic": 600.0,
       "produceWeight": 1400.0,
-      "esgScore": 30,
+      "esgScore": 80,
       "lastUpdated": "2024-09-13T08:45:00"
     },
     {
@@ -184,6 +185,22 @@ const ForceGraph: React.FC = () => {
 
   // Calculate mean of ESG scores
   const meanESG = esgScores.length > 0 ? esgScores.reduce((a, b) => a + b, 0) / esgScores.length : 0;
+
+  // useEffect hook to calculate token rewards when the component mounts or ESG/meanESG changes
+  useEffect(() => {
+    // Calculate token rewards based on the formula
+    const calculateTokenRewards = () => {
+      const k = 47
+      if (meanESG <= 60) {
+        return 0; // If ESG is less than or equal to meanESG, reward is 0
+      } else {
+        return k * Math.pow((meanESG - 60), 2); // If ESG is greater than meanESG, apply the formula
+      }
+    };
+  
+    const rewards = calculateTokenRewards();
+    setTokenRewards(rewards); // Set the token rewards based on the calculation
+  }, [meanESG]); // Re-run the calculation if meanESG changes
 
   // Generate x-values for generic normal distribution
   const xValues = Array.from({ length: 101 }, (_, i) => i);
@@ -328,6 +345,39 @@ const ForceGraph: React.FC = () => {
     setIsFlipped(newFlipState);
   };
 
+  // Helper function to calculate the CDF of the standard normal distribution
+  function cumulativeStandardNormal(z: number): number {
+    // Constants for approximation
+    const p = 0.2316419;
+    const b1 = 0.319381530;
+    const b2 = -0.356563782;
+    const b3 = 1.781477937;
+    const b4 = -1.821255978;
+    const b5 = 1.330274429;
+
+    const t = 1.0 / (1.0 + p * Math.abs(z));
+    const poly = ((((b5 * t + b4) * t) + b3) * t + b2) * t + b1;
+    const standardNormalApprox = 1.0 - (1.0 / Math.sqrt(2 * Math.PI)) * Math.exp(-0.5 * z * z) * poly;
+
+    // If z is negative, return the symmetric value for the CDF
+    return z < 0 ? 1.0 - standardNormalApprox : standardNormalApprox;
+  }
+
+  // Function to calculate the percentile
+  function calculatePercentile(meanESG: number, normalMean: number, stdDev: number): number {
+    // Step 1: Calculate the Z-score
+    const z = (meanESG - normalMean) / stdDev;
+
+    // Step 2: Calculate the CDF of the standard normal distribution
+    const percentile = cumulativeStandardNormal(z);
+
+    // Step 3: Convert to percentage and return
+    return percentile * 100;
+  }
+
+  // In your component
+  const percentile = calculatePercentile(meanESG, mean, stdDev); // Get the percentile
+
   return (
     <>
       <div style={{ paddingLeft: '20px', marginBottom: '20px' }}>
@@ -337,7 +387,7 @@ const ForceGraph: React.FC = () => {
             fontWeight: 'bold',
           }}
         >
-          DASANI DRINKING WATER
+          DASANI Drinking Water
         </Typography>
 
         {/* Button to open the new dialog */}
@@ -371,10 +421,10 @@ const ForceGraph: React.FC = () => {
         <Line data={chartData} options={chartOptions} />
         <div style={{ marginTop: '10px', textAlign: 'center' }}>
           <Typography variant="h6" style={{ fontWeight: 'bold' }}>
-            Aggregate ESG: {meanESG}
+            Aggregate ESG: {meanESG.toFixed(2)} ({percentile.toFixed(2)} Percentile)
           </Typography>
           <Typography variant="h6" style={{ fontWeight: 'bold' }}>
-            Industry ESG: 80
+            Industry ESG: 60.00
           </Typography>
         </div>
       </div>
@@ -423,7 +473,7 @@ const ForceGraph: React.FC = () => {
 
             // Create gradient for node fill
             const gradient = ctx.createRadialGradient(x, y, nodeSize / 2, x, y, nodeSize);
-            if (esgScore < 50) {
+            if (esgScore < 60) {
               gradient.addColorStop(0, '#cc6666'); // Inner color (darker muted red)
               gradient.addColorStop(1, '#b30000'); // Outer color (deep red)
             } else {
@@ -432,7 +482,7 @@ const ForceGraph: React.FC = () => {
             }
 
             // Draw the border
-            ctx.strokeStyle = esgScore < 50 ? 'darkred' : 'darkgreen'; // Border color based on ESG score
+            ctx.strokeStyle = esgScore < 60 ? 'darkred' : 'darkgreen'; // Border color based on ESG score
             ctx.lineWidth = 1; // Thickness of the border
             ctx.beginPath();
             ctx.arc(x, y, nodeSize + 0.5, 0, 2 * Math.PI, false); // Draw border
@@ -487,10 +537,33 @@ const ForceGraph: React.FC = () => {
               textAlign: 'center',
               marginTop: '20px',
               textShadow: '2px 2px 5px rgba(0, 0, 0, 0.5)', // Add drop shadow
+              alignItems: 'center',  // Vertically center the icon with the text
             }}
           >
             Token Rewards
+            <MuiTooltip
+              title={
+                <img
+                  src="calculation.jpg"
+                  alt="Calculation"
+                  style={{ width: '300px' }} // Adjust the image size
+                />
+              }
+              arrow
+              sx={{
+                tooltip: {
+                  fontSize: '1.2rem', // Adjust font size inside tooltip (if any text)
+                  maxWidth: 'none', // Remove maxWidth constraint
+                  padding: '10px', // Add padding
+                },
+              }}
+            >
+              <InfoIcon
+                style={{ marginLeft: '10px', cursor: 'pointer', color: 'white', fontSize: '30px' }} // Increase icon size as well
+              />
+            </MuiTooltip>
           </Typography>
+          {/* Info icon wrapped with MuiTooltip */}
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setNewDialogOpen(false)} color="primary" variant="contained" style={{ borderRadius: 15 }}>
