@@ -197,7 +197,7 @@ const ForceGraph: React.FC = () => {
         return k * Math.pow((meanESG - 60), 2); // If ESG is greater than meanESG, apply the formula
       }
     };
-  
+
     const rewards = calculateTokenRewards();
     setTokenRewards(rewards); // Set the token rewards based on the calculation
   }, [meanESG]); // Re-run the calculation if meanESG changes
@@ -546,20 +546,35 @@ const ForceGraph: React.FC = () => {
                 <img
                   src="calculation.jpg"
                   alt="Calculation"
-                  style={{ width: '300px' }} // Adjust the image size
+                  style={{
+                    width: '300px', // Increase image size to be bigger
+                    height: 'auto', // Ensure the image maintains its aspect ratio
+                  }}
                 />
               }
               arrow
               sx={{
-                tooltip: {
-                  fontSize: '1.2rem', // Adjust font size inside tooltip (if any text)
-                  maxWidth: 'none', // Remove maxWidth constraint
-                  padding: '10px', // Add padding
+                '.MuiTooltip-tooltip': {
+                  fontSize: '1.5rem', // Adjust font size for text if present
+                  maxWidth: 'none', // Remove any max width limitation on the tooltip
+                  width: '420px', // Explicitly set the tooltip width to accommodate the image
+                  padding: '20px', // Add padding around the tooltip content to make the bubble bigger
+                  backgroundColor: 'rgba(0, 0, 0, 0.85)', // Optional: Adjust background color of the tooltip bubble
+                  borderRadius: '10px', // Add rounded corners to the tooltip bubble
+                },
+                '.MuiTooltip-arrow': {
+                  fontSize: '2rem', // Increase arrow size (optional)
+                  color: 'rgba(0, 0, 0, 0.85)', // Match the arrow color with the tooltip bubble
                 },
               }}
             >
               <InfoIcon
-                style={{ marginLeft: '10px', cursor: 'pointer', color: 'white', fontSize: '30px' }} // Increase icon size as well
+                style={{
+                  marginLeft: '10px',
+                  cursor: 'pointer',
+                  color: 'white',
+                  fontSize: '30px', // Increase the icon size
+                }}
               />
             </MuiTooltip>
           </Typography>
