@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Mvc;
+
 namespace backend.Dtos
 {    
     public class ShipmentInfoDto
     {
         public string Name { get; set; } = "";
-        public decimal Quantity { get; set; } = 0;
+        public int Quantity { get; set; } = 0;
         public int EntityCount { get; set; } = 0;
         public List<EntityDto> RawMaterialSource { get; set; } = null;
         public List<EntityDto> Processor { get; set; } = new List<EntityDto>();
@@ -17,10 +19,10 @@ namespace backend.Dtos
         public string Name { get; set; } = "";
         public string Location { get; set; } = "";
         public string ProductDescription { get; set; } = "";
-        public decimal CarbonUsage { get; set; } = 0;
-        public decimal WaterUsage { get; set; } = 0;
-        public decimal PlasticUsage { get; set; } = 0;
-        public decimal ProduceWeight { get; set; } = 0;
+        public int Carbon { get; set; } = 0;
+        public int Water { get; set; } = 0;
+        public int Plastic { get; set; } = 0;
+        public int ProduceWeight { get; set; } = 0;
         public int EsgScore { get; set; } = 0;
         public DateTime LastUpdated { get; set; } = DateTime.Now;
     }
