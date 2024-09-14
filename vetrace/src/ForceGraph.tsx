@@ -528,7 +528,7 @@ const ForceGraph: React.FC = () => {
                 textShadow: '2px 2px 5px rgba(0, 0, 0, 0.5)', // Add drop shadow
               }}
             >
-              {tokenRewards} $B3TR
+              {tokenRewards.toFixed(2)} $B3TR
             </Typography>
           </div>
           <Typography
