@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ForceGraph2D from 'react-force-graph-2d';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Card, CardContent, Typography } from '@mui/material';
 import ReactCardFlip from 'react-card-flip';
@@ -139,39 +139,61 @@ const dummyJson = {
 }
 
 const ForceGraph: React.FC = () => {
-  // State for dialog
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const [isFlipped, setIsFlipped] = useState([false, false, false]); // Manage flip state for 3 cards
-
   const [newDialogOpen, setNewDialogOpen] = useState(false); // State to control the new dialog
-
-  // Sample JSON data for node details with updated fields: carbon, water, plastic
-  const [jsonData] = useState(dummyJson);
+  const [jsonData, setJsonData] = useState<any>(dummyJson); // jsonData state to store API response
   const [tokenRewards, setTokenRewards] = useState(55);
 
+  // Fetch JSON data via POST request
+  useEffect(() => {
+    const fetchJsonData = async () => {
+      try {
+        const response = await fetch('https://your-api-endpoint.com/data', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ query: 'yourQueryParams' }), // Add your payload here if needed
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setJsonData(data); // Store API response in jsonData state
+        } else {
+          console.error('Failed to fetch data');
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchJsonData(); // Fetch data on component mount
+  }, []);
+
   // Extract all ESG scores
-  const esgScores = [
-    ...jsonData.rawMaterialSource.map((source: any) => source.esgScore),
-    ...jsonData.processor.map((processor: any) => processor.esgScore),
-    jsonData.distributor.esgScore,
-    jsonData.retailer.esgScore
-  ];
+  const esgScores = jsonData
+    ? [
+      ...jsonData.rawMaterialSource.map((source: any) => source.esgScore),
+      ...jsonData.processor.map((processor: any) => processor.esgScore),
+      jsonData.distributor.esgScore,
+      jsonData.retailer.esgScore,
+    ]
+    : [];
 
   // Calculate mean of ESG scores
-  const meanESG = esgScores.reduce((a, b) => a + b, 0) / esgScores.length;
+  const meanESG = esgScores.length > 0 ? esgScores.reduce((a, b) => a + b, 0) / esgScores.length : 0;
 
   // Generate x-values for generic normal distribution
   const xValues = Array.from({ length: 101 }, (_, i) => i);
 
   // Generate y-values for generic normal distribution
-  const mean = 50; // Mean for the generic normal distribution
-  const stdDev = 15; // Standard deviation for the generic normal distribution
-  const yValues = xValues.map(x => {
-    return (1 / (stdDev * Math.sqrt(2 * Math.PI))) * Math.exp(-0.5 * Math.pow((x - mean) / stdDev, 2));
-  });
+  const mean = 50;
+  const stdDev = 15;
+  const yValues = xValues.map((x) => (1 / (stdDev * Math.sqrt(2 * Math.PI))) * Math.exp(-0.5 * Math.pow((x - mean) / stdDev, 2)));
 
-  // Create a dataset for the ESG mean point with only one visible point
+  // Create a dataset for the ESG mean point
   const meanPointData = xValues.map((x) => (x === Math.round(meanESG) ? 1 : 0)); // Keep the dataset as numbers
 
   // Chart.js data
@@ -183,21 +205,20 @@ const ForceGraph: React.FC = () => {
         data: yValues,
         borderColor: 'blue',
         fill: false,
-        pointRadius: 0, // Remove points for the normal distribution line
+        pointRadius: 0,
       },
       {
         label: 'ESG Mean',
-        data: meanPointData, // Use dataset with numbers only
+        data: meanPointData,
         borderColor: 'red',
         pointBackgroundColor: 'red',
         pointBorderColor: 'red',
-        pointRadius: meanPointData.map((value) => (value > 0 ? 5 : 0)), // Show the point only where the ESG mean is
-        showLine: true, // Do not show a line for this dataset
+        pointRadius: meanPointData.map((value) => (value > 0 ? 5 : 0)),
+        showLine: true,
       },
     ],
   };
 
-  // Chart.js options
   const chartOptions = {
     responsive: true,
     plugins: {
@@ -224,42 +245,37 @@ const ForceGraph: React.FC = () => {
           text: 'Probability Density',
         },
         min: 0,
-        max: Math.max(...yValues) * 1.2, // Ensure space for the curve
+        max: Math.max(...yValues) * 1.2,
       },
     },
   };
 
   // Generate graph data dynamically
   const generateGraphData = () => {
+    if (!jsonData) return { nodes: [], links: [] };
+
     const nodes = [];
     const links = [];
 
-    // Add raw material source nodes
-    jsonData.rawMaterialSource.forEach((source, index) => {
+    jsonData.rawMaterialSource.forEach((source: any, index: number) => {
       nodes.push({ id: `Raw Material Source ${index + 1}: ${source.name}`, group: 'rawMaterialSource' });
     });
 
-    // Add processor nodes
-    jsonData.processor.forEach((processor, index) => {
+    jsonData.processor.forEach((processor: any, index: number) => {
       nodes.push({ id: `Processor ${index + 1}: ${processor.name}`, group: 'processor' });
     });
 
-    // Add distributor node
     nodes.push({ id: `Distributor: ${jsonData.distributor.name}`, group: 'distributor' });
-
-    // Add retailer node
     nodes.push({ id: `Retailer: ${jsonData.retailer.name}`, group: 'retailer' });
 
-    // Add links from raw material sources to the first processor
-    jsonData.rawMaterialSource.forEach((source, index) => {
+    jsonData.rawMaterialSource.forEach((source: any, index: number) => {
       links.push({
         source: `Raw Material Source ${index + 1}: ${source.name}`,
         target: `Processor 1: ${jsonData.processor[0].name}`,
       });
     });
 
-    // Add links between processors
-    jsonData.processor.forEach((processor, index) => {
+    jsonData.processor.forEach((processor: any, index: number) => {
       if (index < jsonData.processor.length - 1) {
         links.push({
           source: `Processor ${index + 1}: ${processor.name}`,
@@ -268,13 +284,11 @@ const ForceGraph: React.FC = () => {
       }
     });
 
-    // Add link from last processor to distributor
     links.push({
       source: `Processor ${jsonData.processor.length}: ${jsonData.processor[jsonData.processor.length - 1].name}`,
       target: `Distributor: ${jsonData.distributor.name}`,
     });
 
-    // Add link from distributor to retailer
     links.push({
       source: `Distributor: ${jsonData.distributor.name}`,
       target: `Retailer: ${jsonData.retailer.name}`,
@@ -283,35 +297,31 @@ const ForceGraph: React.FC = () => {
     return { nodes, links };
   };
 
-  // Function to handle node click
   const handleNodeClick = (node: any) => {
-    // Find corresponding data in jsonData
     let companyData = null;
 
-    if (node.id.startsWith("Raw Material Source")) {
+    if (node.id.startsWith('Raw Material Source')) {
       const index = parseInt(node.id.match(/\d+/)[0]) - 1;
       companyData = jsonData.rawMaterialSource[index];
-    } else if (node.id.startsWith("Processor")) {
+    } else if (node.id.startsWith('Processor')) {
       const index = parseInt(node.id.match(/\d+/)[0]) - 1;
       companyData = jsonData.processor[index];
-    } else if (node.id.startsWith("Distributor")) {
+    } else if (node.id.startsWith('Distributor')) {
       companyData = jsonData.distributor;
-    } else if (node.id.startsWith("Retailer")) {
+    } else if (node.id.startsWith('Retailer')) {
       companyData = jsonData.retailer;
     }
 
     setSelectedNode({ id: node.id, data: companyData });
-    setDialogOpen(true); // Open the dialog
+    setDialogOpen(true);
   };
 
-  // Function to handle dialog close
   const handleClose = () => {
-    setDialogOpen(false); // Close the dialog
-    setSelectedNode(null); // Clear the selected node
-    setIsFlipped([false, false, false]); // Reset all cards to front
+    setDialogOpen(false);
+    setSelectedNode(null);
+    setIsFlipped([false, false, false]);
   };
 
-  // Handle card flip for each card
   const handleFlip = (index: number) => {
     const newFlipState = [...isFlipped];
     newFlipState[index] = !newFlipState[index];
@@ -375,62 +385,68 @@ const ForceGraph: React.FC = () => {
           graphData={generateGraphData()}
           nodeLabel={(node: any) => `${node.id}`}
           linkDirectionalParticles={2}
-          linkWidth={4} // Increase the link width
-          onNodeClick={handleNodeClick} // Open dialog on node click
+          linkWidth={4}
+          onNodeClick={handleNodeClick}
           nodeCanvasObject={(node, ctx, globalScale) => {
-            let label = ''; // Initialize the label
-            const match = node.id.match(/\d+/); // Safe match extraction
+            let label = '';
+            const match = node.id.match(/\d+/);
             let nodeIndex = 0;
 
-            // Set the label based on node type
             if (node.id.startsWith("Raw Material Source") && match) {
               nodeIndex = parseInt(match[0]) - 1;
-              label = ``; // Raw material source starts at 0
+              label = ``;
             } else if (node.id.startsWith("Processor") && match) {
-              nodeIndex = parseInt(match[0]); // Processor starts from 1
+              nodeIndex = parseInt(match[0]);
               label = `${nodeIndex}`;
             } else if (node.id.startsWith("Distributor")) {
-              nodeIndex = jsonData.processor.length + 1; // After the processors
+              nodeIndex = jsonData.processor.length + 1;
               label = `${nodeIndex}`;
             } else if (node.id.startsWith("Retailer")) {
-              nodeIndex = jsonData.processor.length + 2; // After the distributor
+              nodeIndex = jsonData.processor.length + 2;
               label = `${nodeIndex}`;
             }
 
-            ctx.font = `bold Sans-Serif`; // Set the font to bold
             const fontSize = 12 / globalScale;
-            const textWidth = ctx.measureText(label).width;
-            const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
+            ctx.font = `bold ${fontSize}px Sans-Serif`;
 
-            // Determine the node color based on ESG score
-            let esgScore = 0;
+            const esgScore = node.id.startsWith("Raw Material Source") && match
+              ? jsonData.rawMaterialSource[parseInt(match[0]) - 1]?.esgScore ?? 0
+              : node.id.startsWith("Processor") && match
+                ? jsonData.processor[parseInt(match[0]) - 1]?.esgScore ?? 0
+                : node.id.startsWith("Distributor")
+                  ? jsonData.distributor?.esgScore ?? 0
+                  : jsonData.retailer?.esgScore ?? 0;
 
-            if (node.id.startsWith("Raw Material Source") && match) {
-              const index = parseInt(match[0]) - 1;
-              esgScore = jsonData.rawMaterialSource[index]?.esgScore ?? 0;
-            } else if (node.id.startsWith("Processor") && match) {
-              const index = parseInt(match[0]) - 1;
-              esgScore = jsonData.processor[index]?.esgScore ?? 0;
-            } else if (node.id.startsWith("Distributor")) {
-              esgScore = jsonData.distributor?.esgScore ?? 0;
-            } else if (node.id.startsWith("Retailer")) {
-              esgScore = jsonData.retailer?.esgScore ?? 0;
-            }
-
-            // Set default values for x and y if they are undefined
             const x = node.x ?? 0;
             const y = node.y ?? 0;
-
-            // Increase the size of the node (default was 5, now increased to 10)
             const nodeSize = 10;
 
-            // Set color: red if ESG score < 5, green if >= 5
-            ctx.fillStyle = esgScore < 50 ? 'red' : 'green';
+            // Create gradient for node fill
+            const gradient = ctx.createRadialGradient(x, y, nodeSize / 2, x, y, nodeSize);
+            if (esgScore < 50) {
+              gradient.addColorStop(0, '#cc6666'); // Inner color (darker muted red)
+              gradient.addColorStop(1, '#b30000'); // Outer color (deep red)
+            } else {
+              gradient.addColorStop(0, '#66cc66'); // Inner color (darker muted green)
+              gradient.addColorStop(1, '#009900'); // Outer color (deep green)
+            }
+
+            // Draw the border
+            ctx.strokeStyle = esgScore < 50 ? 'darkred' : 'darkgreen'; // Border color based on ESG score
+            ctx.lineWidth = 1; // Thickness of the border
             ctx.beginPath();
-            ctx.arc(x, y, nodeSize, 0, 2 * Math.PI, false); // Increase the node size here
+            ctx.arc(x, y, nodeSize + 0.5, 0, 2 * Math.PI, false); // Draw border
+            ctx.stroke();
+
+            // Set fill style to gradient
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(x, y, nodeSize, 0, 2 * Math.PI, false); // Draw node with gradient fill
             ctx.fill();
 
             // Draw text label
+            const textWidth = ctx.measureText(label).width;
+            const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
             ctx.fillStyle = 'white';
             ctx.fillText(label, x - bckgDimensions[0] / 2, y + bckgDimensions[1] / 2);
           }}
