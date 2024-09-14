@@ -13,58 +13,33 @@ interface EntityInterface {
 contract Shipment {
 
     // Array to store the addresses of Entity contracts
-    EntityInterface[] public entities;
+    EntityInterface[] public rawMaterials;
+    EntityInterface[] public processors;
+    EntityInterface public distributor;
+    EntityInterface public retailer;
     bytes32 public name;
-
+    
     // Constructor to initialize the contract
-    constructor(bytes32 initialName) {
+    constructor(bytes32 initialName)  {
         name = initialName;
     }
     
     // Function to add a new Entity contract address to the list
-    function addEntity(address _entityAddress) public {
+    function addRawMaterials(address _entityAddress) public {
         // Add the address to the array
-        entities.push(EntityInterface(_entityAddress));
+        rawMaterials.push(EntityInterface(_entityAddress));
     }
 
-    // Function to get the number of Entity contracts added
-    function getEntityCount() public view returns (uint256) {
-        return entities.length;
+    function addProcessors(address _entityAddress) public {
+        // Add the address to the array
+        processors.push(EntityInterface(_entityAddress));
     }
 
-    // Function to retrieve carbon usage from a specific Entity contract by index
-    function getCarbonUsage(uint256 index) public view returns (uint256) {
-        require(index < entities.length, "Invalid index");
-        return entities[index].carbonUsage();
+    function setDistributor(address _entityAddress) public {
+        distributor = EntityInterface(_entityAddress);
     }
 
-    // Function to retrieve water usage from a specific Entity contract by index
-    function getWaterUsage(uint256 index) public view returns (uint256) {
-        require(index < entities.length, "Invalid index");
-        return entities[index].waterUsage();
-    }
-
-    // Function to retrieve plastic usage from a specific Entity contract by index
-    function getPlasticUsage(uint256 index) public view returns (uint256) {
-        require(index < entities.length, "Invalid index");
-        return entities[index].plasticUsage();
-    }
-
-    // Function to retrieve produce weight from a specific Entity contract by index
-    function getProduceWeight(uint256 index) public view returns (uint256) {
-        require(index < entities.length, "Invalid index");
-        return entities[index].produceWeight();
-    }
-
-    // Function to retrieve ESG score from a specific Entity contract by index
-    function getEsgScore(uint256 index) public view returns (uint8) {
-        require(index < entities.length, "Invalid index");
-        return entities[index].esgScore();
-    }
-
-    // Function to retrieve the last updated timestamp from a specific Entity contract by index
-    function getLastUpdated(uint256 index) public view returns (uint256) {
-        require(index < entities.length, "Invalid index");
-        return entities[index].lastUpdated();
+    function setRetailer(address _entityAddress) public {
+        retailer = EntityInterface(_entityAddress);
     }
 }

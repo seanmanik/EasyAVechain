@@ -19,18 +19,14 @@ contract Entity is AccessControl {
     uint256 public lastUpdated;
 
     // Constructor to initialize the contract
-    constructor(address entity, address esgAuthority, bytes32 initialName, bytes32 initialLocation, bytes32 initialProductDesc) {
+    constructor(address entity, address esgAuthority, bytes32 initialName, bytes32 initialLocation, bytes32 initialProductDesc, uint8 evaluatedEsgScore) {
         name = initialName;
         location = initialLocation;
         productDescription = initialProductDesc;
-        // carbonUsage = 0;
-        // waterUsage = 0;
-        // plasticUsage = 0;
-        // produceWeight = 0;
-        // esgScore = 0;
         _grantRole(ESG_MANAGER_ROLE, esgAuthority);
         _grantRole(DEFAULT_ADMIN_ROLE, entity);
         lastUpdated = block.timestamp;
+        esgScore = evaluatedEsgScore;
     }
 
     // Function to update production statistics
@@ -44,7 +40,7 @@ contract Entity is AccessControl {
 
     // Function to update ESG score
     function updateEsgScore(uint8 updatedEsgScore) public onlyRole(ESG_MANAGER_ROLE) {
-        require(updatedEsgScore <= 5, "ESG score must be 5 or lower");
+        require(updatedEsgScore <= 100, "ESG score must be 100 or lower");
         esgScore = updatedEsgScore;
         lastUpdated = block.timestamp;
     }

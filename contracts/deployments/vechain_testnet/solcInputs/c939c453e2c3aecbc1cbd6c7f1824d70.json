@@ -1,0 +1,36 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/Shipment.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.20;\n\ninterface EntityInterface {\n    function carbonUsage() external view returns (uint256);\n    function waterUsage() external view returns (uint256);\n    function plasticUsage() external view returns (uint256);\n    function produceWeight() external view returns (uint256);\n    function esgScore() external view returns (uint8);\n    function lastUpdated() external view returns (uint256);\n}\n\ncontract Shipment {\n\n    // Array to store the addresses of Entity contracts\n    EntityInterface[] public rawMaterials;\n    EntityInterface[] public processors;\n    EntityInterface public distributor;\n    EntityInterface public retailer;\n    bytes32 public name;\n    \n    // Constructor to initialize the contract\n    constructor(bytes32 initialName)  {\n        name = initialName;\n    }\n    \n    // Function to add a new Entity contract address to the list\n    function addRawMaterials(address _entityAddress) public {\n        // Add the address to the array\n        rawMaterials.push(EntityInterface(_entityAddress));\n    }\n\n    function addProcessors(address _entityAddress) public {\n        // Add the address to the array\n        processors.push(EntityInterface(_entityAddress));\n    }\n\n    function setDistributor(address _entityAddress) public {\n        distributor = EntityInterface(_entityAddress);\n    }\n\n    function setRetailer(address _entityAddress) public {\n        retailer = EntityInterface(_entityAddress);\n    }\n}\n"
+    }
+  },
+  "settings": {
+    "evmVersion": "paris",
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "storageLayout",
+          "devdoc",
+          "userdoc",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}

@@ -1,0 +1,254 @@
+{
+  "address": "0x59577097eDC52def8991F7B71d2a5B9aFCDE3b4d",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "initialName",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_entityAddress",
+          "type": "address"
+        }
+      ],
+      "name": "addProcessors",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_entityAddress",
+          "type": "address"
+        }
+      ],
+      "name": "addRawMaterials",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "distributor",
+      "outputs": [
+        {
+          "internalType": "contract EntityInterface",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "name",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "processors",
+      "outputs": [
+        {
+          "internalType": "contract EntityInterface",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "rawMaterials",
+      "outputs": [
+        {
+          "internalType": "contract EntityInterface",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "retailer",
+      "outputs": [
+        {
+          "internalType": "contract EntityInterface",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_entityAddress",
+          "type": "address"
+        }
+      ],
+      "name": "setDistributor",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_entityAddress",
+          "type": "address"
+        }
+      ],
+      "name": "setRetailer",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0xec8833673b2bbbb67d07774f1caae31d2ff92a4f9325e43e148b3c32706b30b9",
+  "receipt": {
+    "to": null,
+    "from": "0xe26F10cF739876D288E3f96c6dAa85d5aBA51A0d",
+    "contractAddress": "0x59577097eDC52def8991F7B71d2a5B9aFCDE3b4d",
+    "transactionIndex": 0,
+    "gasUsed": "474920",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x012b87ac40135ddf877a1a735978e86c32c7335d40dac26c0daffb22d44c0173",
+    "transactionHash": "0xec8833673b2bbbb67d07774f1caae31d2ff92a4f9325e43e148b3c32706b30b9",
+    "logs": [
+      {
+        "transactionIndex": 0,
+        "blockNumber": 19629996,
+        "transactionHash": "0xec8833673b2bbbb67d07774f1caae31d2ff92a4f9325e43e148b3c32706b30b9",
+        "address": "0x59577097eDC52def8991F7B71d2a5B9aFCDE3b4d",
+        "topics": [
+          "0xb35bf4274d4295009f1ec66ed3f579db287889444366c03d3a695539372e8951"
+        ],
+        "data": "0x000000000000000000000000e26f10cf739876d288e3f96c6daa85d5aba51a0d",
+        "logIndex": 0,
+        "blockHash": "0x012b87ac40135ddf877a1a735978e86c32c7335d40dac26c0daffb22d44c0173"
+      }
+    ],
+    "blockNumber": 19629996,
+    "cumulativeGasUsed": "0",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "0x446173616e6920576174657220426f74746c6500000000000000000000000000"
+  ],
+  "numDeployments": 1,
+  "solcInputHash": "c939c453e2c3aecbc1cbd6c7f1824d70",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.24+commit.e11b9ed9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"initialName\",\"type\":\"bytes32\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_entityAddress\",\"type\":\"address\"}],\"name\":\"addProcessors\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_entityAddress\",\"type\":\"address\"}],\"name\":\"addRawMaterials\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"distributor\",\"outputs\":[{\"internalType\":\"contract EntityInterface\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"name\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"processors\",\"outputs\":[{\"internalType\":\"contract EntityInterface\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"rawMaterials\",\"outputs\":[{\"internalType\":\"contract EntityInterface\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"retailer\",\"outputs\":[{\"internalType\":\"contract EntityInterface\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_entityAddress\",\"type\":\"address\"}],\"name\":\"setDistributor\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_entityAddress\",\"type\":\"address\"}],\"name\":\"setRetailer\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/Shipment.sol\":\"Shipment\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/Shipment.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.20;\\n\\ninterface EntityInterface {\\n    function carbonUsage() external view returns (uint256);\\n    function waterUsage() external view returns (uint256);\\n    function plasticUsage() external view returns (uint256);\\n    function produceWeight() external view returns (uint256);\\n    function esgScore() external view returns (uint8);\\n    function lastUpdated() external view returns (uint256);\\n}\\n\\ncontract Shipment {\\n\\n    // Array to store the addresses of Entity contracts\\n    EntityInterface[] public rawMaterials;\\n    EntityInterface[] public processors;\\n    EntityInterface public distributor;\\n    EntityInterface public retailer;\\n    bytes32 public name;\\n    \\n    // Constructor to initialize the contract\\n    constructor(bytes32 initialName)  {\\n        name = initialName;\\n    }\\n    \\n    // Function to add a new Entity contract address to the list\\n    function addRawMaterials(address _entityAddress) public {\\n        // Add the address to the array\\n        rawMaterials.push(EntityInterface(_entityAddress));\\n    }\\n\\n    function addProcessors(address _entityAddress) public {\\n        // Add the address to the array\\n        processors.push(EntityInterface(_entityAddress));\\n    }\\n\\n    function setDistributor(address _entityAddress) public {\\n        distributor = EntityInterface(_entityAddress);\\n    }\\n\\n    function setRetailer(address _entityAddress) public {\\n        retailer = EntityInterface(_entityAddress);\\n    }\\n}\\n\",\"keccak256\":\"0x971576470914a959d58eb1a9b31ebb56f5b1bb0bf34794608d53be72923fe770\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b506040516106733803806106738339818101604052810190610032919061007a565b80600481905550506100a7565b600080fd5b6000819050919050565b61005781610044565b811461006257600080fd5b50565b6000815190506100748161004e565b92915050565b6000602082840312156100905761008f61003f565b5b600061009e84828501610065565b91505092915050565b6105bd806100b66000396000f3fe608060405234801561001057600080fd5b50600436106100935760003560e01c806375619ab51161006657806375619ab514610120578063768791901461013c578063bfe1092814610158578063fe7c58e914610176578063fea81cdb146101a657610093565b806306fdde03146100985780633d5422c4146100b65780634a1f6125146100e65780634c1249fc14610102575b600080fd5b6100a06101c2565b6040516100ad91906103ff565b60405180910390f35b6100d060048036038101906100cb9190610455565b6101c8565b6040516100dd9190610501565b60405180910390f35b61010060048036038101906100fb919061055a565b610207565b005b61010a61024b565b6040516101179190610501565b60405180910390f35b61013a6004803603810190610135919061055a565b610271565b005b6101566004803603810190610151919061055a565b6102b5565b005b61016061031b565b60405161016d9190610501565b60405180910390f35b610190600480360381019061018b9190610455565b610341565b60405161019d9190610501565b60405180910390f35b6101c060048036038101906101bb919061055a565b610380565b005b60045481565b600081815481106101d857600080fd5b906000526020600020016000915054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b80600360006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b600360009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b80600260006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b6001819080600181540180825580915050600190039060005260206000200160009091909190916101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b600260009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6001818154811061035157600080fd5b906000526020600020016000915054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000819080600181540180825580915050600190039060005260206000200160009091909190916101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b6000819050919050565b6103f9816103e6565b82525050565b600060208201905061041460008301846103f0565b92915050565b600080fd5b6000819050919050565b6104328161041f565b811461043d57600080fd5b50565b60008135905061044f81610429565b92915050565b60006020828403121561046b5761046a61041a565b5b600061047984828501610440565b91505092915050565b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b6000819050919050565b60006104c76104c26104bd84610482565b6104a2565b610482565b9050919050565b60006104d9826104ac565b9050919050565b60006104eb826104ce565b9050919050565b6104fb816104e0565b82525050565b600060208201905061051660008301846104f2565b92915050565b600061052782610482565b9050919050565b6105378161051c565b811461054257600080fd5b50565b6000813590506105548161052e565b92915050565b6000602082840312156105705761056f61041a565b5b600061057e84828501610545565b9150509291505056fea2646970667358221220651957257686891d2722ffd0de9f5882fa78bfc728ad0736231f8732da355b3864736f6c63430008180033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100935760003560e01c806375619ab51161006657806375619ab514610120578063768791901461013c578063bfe1092814610158578063fe7c58e914610176578063fea81cdb146101a657610093565b806306fdde03146100985780633d5422c4146100b65780634a1f6125146100e65780634c1249fc14610102575b600080fd5b6100a06101c2565b6040516100ad91906103ff565b60405180910390f35b6100d060048036038101906100cb9190610455565b6101c8565b6040516100dd9190610501565b60405180910390f35b61010060048036038101906100fb919061055a565b610207565b005b61010a61024b565b6040516101179190610501565b60405180910390f35b61013a6004803603810190610135919061055a565b610271565b005b6101566004803603810190610151919061055a565b6102b5565b005b61016061031b565b60405161016d9190610501565b60405180910390f35b610190600480360381019061018b9190610455565b610341565b60405161019d9190610501565b60405180910390f35b6101c060048036038101906101bb919061055a565b610380565b005b60045481565b600081815481106101d857600080fd5b906000526020600020016000915054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b80600360006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b600360009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b80600260006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b6001819080600181540180825580915050600190039060005260206000200160009091909190916101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b600260009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6001818154811061035157600080fd5b906000526020600020016000915054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000819080600181540180825580915050600190039060005260206000200160009091909190916101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b6000819050919050565b6103f9816103e6565b82525050565b600060208201905061041460008301846103f0565b92915050565b600080fd5b6000819050919050565b6104328161041f565b811461043d57600080fd5b50565b60008135905061044f81610429565b92915050565b60006020828403121561046b5761046a61041a565b5b600061047984828501610440565b91505092915050565b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b6000819050919050565b60006104c76104c26104bd84610482565b6104a2565b610482565b9050919050565b60006104d9826104ac565b9050919050565b60006104eb826104ce565b9050919050565b6104fb816104e0565b82525050565b600060208201905061051660008301846104f2565b92915050565b600061052782610482565b9050919050565b6105378161051c565b811461054257600080fd5b50565b6000813590506105548161052e565b92915050565b6000602082840312156105705761056f61041a565b5b600061057e84828501610545565b9150509291505056fea2646970667358221220651957257686891d2722ffd0de9f5882fa78bfc728ad0736231f8732da355b3864736f6c63430008180033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 36,
+        "contract": "contracts/Shipment.sol:Shipment",
+        "label": "rawMaterials",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_array(t_contract(EntityInterface)32)dyn_storage"
+      },
+      {
+        "astId": 40,
+        "contract": "contracts/Shipment.sol:Shipment",
+        "label": "processors",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_array(t_contract(EntityInterface)32)dyn_storage"
+      },
+      {
+        "astId": 43,
+        "contract": "contracts/Shipment.sol:Shipment",
+        "label": "distributor",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_contract(EntityInterface)32"
+      },
+      {
+        "astId": 46,
+        "contract": "contracts/Shipment.sol:Shipment",
+        "label": "retailer",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_contract(EntityInterface)32"
+      },
+      {
+        "astId": 48,
+        "contract": "contracts/Shipment.sol:Shipment",
+        "label": "name",
+        "offset": 0,
+        "slot": "4",
+        "type": "t_bytes32"
+      }
+    ],
+    "types": {
+      "t_array(t_contract(EntityInterface)32)dyn_storage": {
+        "base": "t_contract(EntityInterface)32",
+        "encoding": "dynamic_array",
+        "label": "contract EntityInterface[]",
+        "numberOfBytes": "32"
+      },
+      "t_bytes32": {
+        "encoding": "inplace",
+        "label": "bytes32",
+        "numberOfBytes": "32"
+      },
+      "t_contract(EntityInterface)32": {
+        "encoding": "inplace",
+        "label": "contract EntityInterface",
+        "numberOfBytes": "20"
+      }
+    }
+  }
+}
