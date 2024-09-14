@@ -150,12 +150,12 @@ const ForceGraph: React.FC = () => {
   useEffect(() => {
     const fetchJsonData = async () => {
       try {
-        const response = await fetch('https://your-api-endpoint.com/data', {
-          method: 'POST',
+        const response = await fetch('http://localhost:5165/Trace/ShipmentInfo?txHash=0x59577097eDC52def8991F7B71d2a5B9aFCDE3b4d', {
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ query: 'yourQueryParams' }), // Add your payload here if needed
+          // body: JSON.stringify({ query: '0x59577097eDC52def8991F7B71d2a5B9aFCDE3b4d' }), // Add your payload here if needed
         });
 
         if (response.ok) {
