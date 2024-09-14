@@ -14,7 +14,13 @@ contract Shipment {
 
     // Array to store the addresses of Entity contracts
     EntityInterface[] public entities;
+    bytes32 public name;
 
+    // Constructor to initialize the contract
+    constructor(bytes32 initialName) {
+        name = initialName;
+    }
+    
     // Function to add a new Entity contract address to the list
     function addEntity(address _entityAddress) public {
         // Add the address to the array
