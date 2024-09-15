@@ -12,7 +12,7 @@ export enum States {
 }
 
 export default function App() {
-  const [state, setState] = useState<States>(States.Screen2);
+  const [state, setState] = useState<States>(States.Screen1);
 
   return (
     <>

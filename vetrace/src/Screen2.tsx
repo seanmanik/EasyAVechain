@@ -1,9 +1,19 @@
-import React, { useState } from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Typography, IconButton } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Typography, IconButton, CircularProgress } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close'; // Import the CloseIcon
 
 const Screen2: React.FC = () => {
   const [open, setOpen] = useState(false); // State to control the dialog
+  const [b3trValue, setB3trValue] = useState(2000); // State to control the B3TR value
+  const [loading, setLoading] = useState(false); // State to manage the loading state
+
+  // Set body background color to black on mount
+  useEffect(() => {
+    document.body.style.backgroundColor = 'black';
+    return () => {
+      document.body.style.backgroundColor = ''; // Reset on unmount
+    };
+  }, []);
 
   const handleClickOpen = () => {
     setOpen(true); // Open dialog when image is clicked
@@ -13,17 +23,40 @@ const Screen2: React.FC = () => {
     setOpen(false); // Close dialog
   };
 
+  const handleRedeem = () => {
+    if (b3trValue >= 500) {
+      setLoading(true); // Set loading state to true to show the spinner
+
+      // Simulate a delay with setTimeout (e.g., 2 seconds)
+      setTimeout(() => {
+        setB3trValue(b3trValue - 500); // Decrease the B3tR value by 500
+        setLoading(false); // Stop showing the spinner
+        alert('Voucher has been sent to your email!\n0x616c4fc81171abc2b132b53b98ef9852c5001d89aa5bfd483eade3f450cb635d');
+      }, 2000); // 2 seconds delay
+    } else {
+      alert('Not enough $B3TR remaining to redeem the voucher!');
+    }
+  };
+
   return (
-    <div>
+    <div
+      style={{
+        paddingTop: '40px', // Add padding to the top of the image
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh', // Full height of the viewport
+        backgroundColor: 'black', // Set the background to black
+      }}
+    >
       {/* Image that opens the dialog when clicked */}
       <img
-        src="redemption.png"
+        src="redemption.jpg"
         alt="redemption"
         style={{
-          paddingTop: '40px', // Add padding to the top of the image
-          width: '100%',   // Make the image fill the screen width
-          height: 'auto',  // Maintain the aspect ratio
-          cursor: 'pointer' // Add a pointer cursor to indicate it's clickable
+          width: '80%', // Adjust width to fill most of the screen
+          height: 'auto', // Maintain aspect ratio
+          cursor: 'pointer', // Add a pointer cursor to indicate it's clickable
         }}
         onClick={handleClickOpen} // Open the dialog when image is clicked
       />
@@ -90,6 +123,9 @@ const Screen2: React.FC = () => {
         </DialogContent>
 
         <DialogActions style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Typography>
+            $B3TR Remaining: {b3trValue}
+          </Typography>
           {/* Redeem button with gradient background and styled text */}
           <Button
             color="primary"
@@ -106,13 +142,14 @@ const Screen2: React.FC = () => {
               boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)', // Add slight shadow to the button
               marginBottom: '20px', // Spacing at the bottom
             }}
-            onClick={() => alert('Voucher Redeemed!')} // Placeholder action for redeeming
+            onClick={handleRedeem} // Trigger the redeem action on button click
+            disabled={loading} // Disable button while loading
           >
-            Redeem Voucher
+            {loading ? <CircularProgress size={24} style={{ color: 'white' }} /> : 'Redeem Voucher'}
           </Button>
         </DialogActions>
       </Dialog>
-    </div >
+    </div>
   );
 };
 

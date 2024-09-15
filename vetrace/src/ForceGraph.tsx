@@ -23,7 +23,7 @@ const dummyJson = {
       "water": 180.2,
       "plastic": 500.0,
       "produceWeight": 1200.0,
-      "esgScore": 90,
+      "esgScore": 91,
       "lastUpdated": "2024-09-12T08:00:00"
     },
     {
@@ -35,7 +35,7 @@ const dummyJson = {
       "water": 220.0,
       "plastic": 550.0,
       "produceWeight": 1300.0,
-      "esgScore": 40,
+      "esgScore": 43,
       "lastUpdated": "2024-09-12T09:30:00"
     },
     {
@@ -47,7 +47,7 @@ const dummyJson = {
       "water": 200.0,
       "plastic": 480.0,
       "produceWeight": 1150.0,
-      "esgScore": 50,
+      "esgScore": 52,
       "lastUpdated": "2024-09-12T10:15:00"
     }
   ],
@@ -61,7 +61,7 @@ const dummyJson = {
       "water": 150.0,
       "plastic": 600.0,
       "produceWeight": 1400.0,
-      "esgScore": 80,
+      "esgScore": 86,
       "lastUpdated": "2024-09-13T08:45:00"
     },
     {
@@ -73,7 +73,7 @@ const dummyJson = {
       "water": 140.0,
       "plastic": 580.0,
       "produceWeight": 1350.0,
-      "esgScore": 70,
+      "esgScore": 75,
       "lastUpdated": "2024-09-13T09:30:00"
     },
     {
@@ -85,7 +85,7 @@ const dummyJson = {
       "water": 130.0,
       "plastic": 550.0,
       "produceWeight": 1250.0,
-      "esgScore": 100,
+      "esgScore": 91,
       "lastUpdated": "2024-09-13T10:15:00"
     },
     {
@@ -97,7 +97,7 @@ const dummyJson = {
       "water": 120.0,
       "plastic": 520.0,
       "produceWeight": 1200.0,
-      "esgScore": 80,
+      "esgScore": 83,
       "lastUpdated": "2024-09-13T11:00:00"
     },
     {
@@ -109,7 +109,7 @@ const dummyJson = {
       "water": 110.0,
       "plastic": 500.0,
       "produceWeight": 1100.0,
-      "esgScore": 60,
+      "esgScore": 62,
       "lastUpdated": "2024-09-13T11:45:00"
     }
   ],
@@ -122,7 +122,7 @@ const dummyJson = {
     "water": 100.0,
     "plastic": 400.0,
     "produceWeight": 1000.0,
-    "esgScore": 70,
+    "esgScore": 79,
     "lastUpdated": "2024-09-13T12:30:00"
   },
   "retailer": {
@@ -134,7 +134,7 @@ const dummyJson = {
     "water": 80.0,
     "plastic": 350.0,
     "produceWeight": 900.0,
-    "esgScore": 20,
+    "esgScore": 27,
     "lastUpdated": "2024-09-13T13:00:00"
   }
 }
@@ -596,8 +596,11 @@ const ForceGraph: React.FC = () => {
         },
       }}>
         <DialogTitle>
-          <Typography variant="h6" style={{ fontWeight: 'bold' }}>
+          <Typography variant="h5" style={{ fontWeight: 'bold' }}>
             {selectedNode?.id}
+          </Typography>
+          <Typography variant="subtitle2">
+            {selectedNode?.data.productDescription}
           </Typography>
         </DialogTitle>
         <DialogContent>
@@ -750,14 +753,15 @@ const ForceGraph: React.FC = () => {
             <div
               style={{
                 display: 'flex', // Use flexbox
+                flexDirection: 'column', // Stack items vertically
                 justifyContent: 'center', // Horizontally center the content
                 marginTop: '20px',
               }}
             >
               <div
                 style={{
-                  background: 'linear-gradient(135deg, #ff7e5f, #feb47b)', // Complementary orange-pink gradient
-                  color: 'black', // White text for contrast
+                  background: 'white', // White background
+                  color: 'green', // Black text for contrast
                   padding: '10px 20px', // Padding to make it look like a button
                   borderRadius: '30px', // Rounded corners like a button
                   textAlign: 'center',
@@ -766,7 +770,27 @@ const ForceGraph: React.FC = () => {
                   boxShadow: '0 8px 12px rgba(0, 0, 0, 0.3)', // Added shadow for button effect
                 }}
               >
-                ESG Score: {selectedNode.data.esgScore}
+                ESG Score: {selectedNode.data.esgScore} 🥳
+              </div>
+              <div
+                style={{
+                  color: 'white', // White text for contrast
+                  textAlign: 'center',
+                  fontSize: '1.2rem', // Adjust font size
+                  fontWeight: 'bold', // Bold font
+                }}
+              >
+                vs
+              </div>
+              <div
+                style={{
+                  color: 'white', // White text for contrast
+                  textAlign: 'center',
+                  fontSize: '1.5rem', // Adjust font size
+                  fontWeight: 'bold', // Bold font
+                }}
+              >
+                Industry ESG: {(selectedNode.data.esgScore - 9.48).toFixed(2)}
               </div>
             </div>
           )}
